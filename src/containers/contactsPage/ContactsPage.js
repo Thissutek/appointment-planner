@@ -28,6 +28,22 @@ export const ContactsPage = ({contacts, addContact}) => {
   };
 
   /* Using hooks, check for contact name in the contacts array variable in props */
+  useEffect(() => {
+    const nameIsDuplicate = () => {
+      const found = contacts.find((contact) => contact.name === name);
+      if (found !== undefined) {
+        return true;
+      }
+      return false;
+    };
+
+    if (nameIsDuplicate()) {
+      setIsDuplicate(true);
+    } else {
+      setIsDuplicate(false);
+    }
+  }, [name, contacts, isDuplicate]);
+
 
   return (
     <div>
@@ -47,7 +63,7 @@ export const ContactsPage = ({contacts, addContact}) => {
       <hr />
       <section>
         <h2>Contacts</h2>
-        <TileList contacts={contacts}/>
+        <TileList tiles={contacts}/>
       </section>
     </div>
   );
