@@ -9,43 +9,47 @@ export const ContactForm = ({
   setEmail,
   handleSubmit
 }) => {
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    handleSubmit();
-  }
-
   return (
-    
-    <form onSubmit={handleFormSubmit}>
-      <label htmlFor="name">Name:</label>
+    <form onSubmit={handleSubmit}>
+      <label>
         <input
-          id="name"
           type="text"
+          name="name"
           value={name}
-          onChange={(e) => setName(e.target.value)} 
+          onChange={(e) => setName(e.target.value)}
           required
+          placeholder="Contact Name"
+          aria-label="Contact Name"
         />
-      <label htmlFor="phone">Phone:</label>
+      </label>
+      <br />
+      <label>
         <input
-          id="phone"
           type="tel"
+          name="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           required
+          // regex is for US phone numbers
+          pattern="[1-9][0-9]{2}-[1-9][0-9]{2}-[0-9]{4}"
+          placeholder="Contact Phone (###-###-####)"
+          aria-label="Contact Phone"
         />
-      <label htmlFor="email">Email:</label>
+      </label>
+      <br />
+      <label>
         <input
-          id="email"
           type="email"
+          name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          placeholder="Contact Email"
+          aria-label="Contact Email"
         />
-
-      <button type="submit">Add Contact</button>
+      </label>
+      <br />
+      <input type="submit" value="Add Contact" aria-label="Add Contact"/>
     </form>
-
   );
 };
-

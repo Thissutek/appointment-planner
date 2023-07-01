@@ -1,5 +1,6 @@
-import React from "react";
-import { ContactPicker } from '../contactPicker/ContactPicker'
+import React, { useMemo } from "react";
+
+import { ContactPicker } from "../contactPicker/ContactPicker";
 
 const getTodayString = () => {
   const [month, day, year] = new Date()
@@ -10,7 +11,7 @@ const getTodayString = () => {
 
 export const AppointmentForm = ({
   contacts,
-  title,
+  name,
   setTitle,
   contact,
   setContact,
@@ -21,25 +22,57 @@ export const AppointmentForm = ({
   handleSubmit
 }) => {
 
+  const contactNames = useMemo(() => {
+    return contacts.map((contact) => contact.name);
+  }, [contacts]);
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Name:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          placeholder="Appointment Name"
+          aria-label="Appointment Name"
+        />
       </label>
+      <br />
       <label>
-        Contact:
-        <ContactPicker value={contact} onChange={(e) => setContact(e.target.value)}/>
+        <ContactPicker
+          name="contact"
+          value={contact}
+          contacts={contactNames}
+          onChange={(e) => setContact(e.target.value)}
+        />
       </label>
+      <br />
       <label>
-        Date:
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+        <input
+          type="date"
+          name="date"
+          min={getTodayString()}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
+          aria-label="Date Picker"
+        />
       </label>
+      <br />
       <label>
-        Time:
-        <input type="time" value={time} onChange={(e) => setTime(e.target.value)}/>
+        <input
+          type="time"
+          name="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          required
+          aria-label="Time Picker"
+        />
       </label>
-      <button type="submit">Submit</button>
+      <br />
+      <input aria-label="Add Appointment" type="submit" value="Add Appointment" />
     </form>
   );
 };

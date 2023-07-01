@@ -1,39 +1,42 @@
 import React, { useState } from "react";
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom"
 import Root, { ROUTES } from "./components/root/Root";
+
 import { AppointmentsPage } from "./containers/appointmentsPage/AppointmentsPage";
 import { ContactsPage } from "./containers/contactsPage/ContactsPage";
 
 function App() {
-  /* Define state variables for contacts and appointments */
-  const [contacts, setContacts] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
-  /* Implement functions to add data to contacts and appointments */
-  const addContacts = (name, phoneNumber, email) => {
-    const newContact = {
-      name, 
-      phoneNumber,
-      email 
-    };
-    setContacts(prevContacts => [...prevContacts, newContact]);
+  const addAppointment = (name, contact, date, time) => {
+    setAppointments([
+      ...appointments,
+      {
+        name: name,
+        contact: contact,
+        date: date,
+        time: time,
+      },
+    ]);
   };
 
-  const addAppointments = (name, contact, date, time) => {
-    const newAppointment = {
-      name, 
-      contact,
-      date,
-      time
-    };
-    setAppointments(prevAppointments => [...prevAppointments, newAppointment]);
+  const addContact = (name, phone, email) => {
+    setContacts([
+      ...contacts,
+      {
+        name: name,
+        phone: phone,
+        email: email,
+      },
+    ]);
   };
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={ <Root/> }>
       <Route index element={ <Navigate to={ROUTES.CONTACTS} replace/> }/>
-      <Route path={ROUTES.CONTACTS} element={ <ContactsPage contacts={contacts} addContacts={addContacts} /> }/>
-      <Route path={ROUTES.APPOINTMENTS} element={ <AppointmentsPage contacts={contacts} appontments={appointments} addAppointments={addAppointments}/>  }/>
+      <Route path={ROUTES.CONTACTS} element={ <ContactsPage contacts={contacts} addContact={addContact} /> }/>
+      <Route path={ROUTES.APPOINTMENTS} element={ <AppointmentsPage appointments={appointments} addAppointment={addAppointment} contacts={contacts}/> }/>
     </Route>
   ));
   
